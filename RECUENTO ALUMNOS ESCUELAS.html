@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuento de los Alumnos de Cada Escuela</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FF6F61, #6A1B9A);
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            color: #f0f4f8;
+            text-align: center;
+        }
+
+        /* Date container */
+        .date-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .date-box {
+            background-color: #1E88E5;
+            width: 180px;
+            height: 120px;
+            margin: 15px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .date-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .date-box p {
+            font-size: 22px;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Escuela container */
+        .group-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .group-box {
+            background-color: #FF7043;
+            width: 150px;
+            height: 150px;
+            margin: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .group-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .group-box p {
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        /* Results */
+        .result {
+            margin-top: 40px;
+            font-size: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .count {
+            font-weight: bold;
+            font-size: 24px;
+            color: #FFEB3B;
+        }
+
+        /* Reset Button */
+        .reset-btn {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            background-color: #27ae60;
+        }
+
+        /* Result Table */
+        .result-table {
+            margin-top: 30px;
+            width: 80%;
+            text-align: center;
+            border-collapse: collapse;
+            margin-left: 10%;
+        }
+
+        .result-table th, .result-table td {
+            padding: 12px 20px;
+            border: 1px solid #fff;
+            font-size: 18px;
+        }
+
+        .result-table th {
+            background-color: #2980b9;
+        }
+
+        .result-table td {
+            background-color: #2c3e50;
+        }
+
+        /* Reset Button Container */
+        .reset-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        .reset-group-btn {
+            margin-left: 10px;
+            padding: 8px 15px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .reset-group-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .date-box, .group-box {
+                width: 130px;
+                height: 100px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .group-box p {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Recuento de los Alumnos de Cada Escuela</h1>
+    <p>Haz clic en una fecha y luego en una escuela para registrar tu voto:</p>
+
+    <!-- Contenedor de fechas -->
+    <div class="date-container">
+        <div class="date-box" onclick="seleccionarFecha('9 MARÇ')">
+            <p>9 MARÇ</p>
+        </div>
+        <div class="date-box" onclick="seleccionarFecha('23 MARÇ')">
+            <p>23 MARÇ</p>
+        </div>
+        <div class="date-box" onclick="seleccionarFecha('13 ABRIL')">
+            <p>13 ABRIL</p>
+        </div>
+        <div class="date-box" onclick="seleccionarFecha('27 ABRIL')">
+            <p>27 ABRIL</p>
+        </div>
+        <div class="date-box" onclick="seleccionarFecha('11 MAIG')">
+            <p>11 MAIG</p>
+        </div>
+        <div class="date-box" onclick="seleccionarFecha('25 MAIG')">
+            <p>25 MAIG</p>
+        </div>
+        <div class="date-box" onclick="seleccionarFecha('8 JUNY')">
+            <p>8 JUNY</p>
+        </div>
+        <div class="date-box" onclick="seleccionarFecha('29 JUNY')">
+            <p>29 JUNY</p>
+        </div>
+    </div>
+
+    <!-- Contenedor de escuelas -->
+    <div class="group-container">
+        <div class="group-box" onclick="registrarVoto('Bambú')">
+            <p>Bambú</p>
+        </div>
+        <div class="group-box" onclick="registrarVoto('Moving')">
+            <p>Moving</p>
+        </div>
+        <div class="group-box" onclick="registrarVoto('Danger')">
+            <p>Danger</p>
+        </div>
+        <div class="group-box" onclick="registrarVoto('Otros')">
+            <p>Otros</p>
+        </div>
+    </div>
+
+    <!-- Resultados de la encuesta -->
+    <div class="result">
+        <h2>Resultados de la Encuesta</h2>
+
+        <!-- Resultados dinámicos por fecha y escuela se llenarán aquí -->
+        <table class="result-table" id="resultados">
+            <thead>
+                <tr>
+                    <th>Escuela</th>
+                    <th>Personas</th>
+                    <th>Resetear</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará dinámicamente -->
+            </tbody>
+        </table>
+
+        <!-- Botón de reseteo general al lado de los resultados -->
+        <div class="reset-container">
+            <button class="reset-btn" onclick="resetearVotos()">Resetear todos los votos</button>
+        </div>
+    </div>
+
+    <script>
+        // Inicializamos el objeto de votos desde localStorage o por defecto con 0
+        let votos = JSON.parse(localStorage.getItem('votos')) || {
+            "9 MARÇ": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 },
+            "23 MARÇ": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 },
+            "13 ABRIL": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 },
+            "27 ABRIL": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 },
+            "11 MAIG": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 },
+            "25 MAIG": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 },
+            "8 JUNY": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 },
+            "29 JUNY": { Bambú: 0, Moving: 0, Danger: 0, Otros: 0 }
+        };
+
+        let fechaSeleccionada = null;
+
+        // Función para seleccionar una fecha
+        function seleccionarFecha(fecha) {
+            fechaSeleccionada = fecha;
+            mostrarResultados();
+        }
+
+        // Función para registrar un voto para la escuela seleccionada
+        function registrarVoto(escuela) {
+            if (fechaSeleccionada) {
+                votos[fechaSeleccionada][escuela]++;
+                guardarVotos();
+                mostrarResultados();
+            } else {
+                alert("Primero selecciona una fecha.");
+            }
+        }
+
+        // Función para resetear los votos de todos los grupos para la fecha seleccionada
+        function resetearVotos() {
+            if (fechaSeleccionada) {
+                for (let escuela in votos[fechaSeleccionada]) {
+                    votos[fechaSeleccionada][escuela] = 0;
+                }
+                guardarVotos();
+                mostrarResultados();
+            } else {
+                alert("Primero selecciona una fecha.");
+            }
+        }
+
+        // Función para resetear los votos de una escuela específica para la fecha seleccionada
+        function resetearEscuela(escuela) {
+            if (fechaSeleccionada) {
+                votos[fechaSeleccionada][escuela] = 0;
+                guardarVotos();
+                mostrarResultados();
+            } else {
+                alert("Primero selecciona una fecha.");
+            }
+        }
+
+        // Función para guardar los votos en localStorage
+        function guardarVotos() {
+            localStorage.setItem('votos', JSON.stringify(votos));
+        }
+
+        // Función para mostrar los resultados de la encuesta
+        function mostrarResultados() {
+            if (!fechaSeleccionada) return;
+
+            let resultadosHTML = `<thead>
+                <tr>
+                    <th>Escuela</th>
+                    <th>Personas</th>
+                    <th>Resetear</th>
+                </tr>
+            </thead>
+            <tbody>`;
+            
+            for (let escuela in votos[fechaSeleccionada]) {
+                resultadosHTML += `
+                <tr>
+                    <td>${escuela}</td>
+                    <td>${votos[fechaSeleccionada][escuela]}</td>
+                    <td><button class="reset-group-btn" onclick="resetearEscuela('${escuela}')">Resetear</button></td>
+                </tr>`;
+            }
+            resultadosHTML += `</tbody>`;
+
+            document.getElementById("resultados").innerHTML = resultadosHTML;
+        }
+
+        // Mostrar los resultados al cargar la página si ya hay una fecha seleccionada
+        window.onload = function() {
+            if (fechaSeleccionada) {
+                mostrarResultados();
+            }
+        }
+    </script>
+
+</body>
+</html>
